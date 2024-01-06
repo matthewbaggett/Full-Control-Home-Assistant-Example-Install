@@ -1,5 +1,16 @@
 version: "3.7"
+volumes:
+  postgres:
 services:
+  postgres:
+    image: postgres:11.1-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: &postgres_username fullcontrol
+      POSTGRES_PASSWORD: &postgres_password fullcontrol
+      POSTGRES_DB: &postgres_db homeassistant
+
   homeassistant: &homeassistant
     #build: ../Full-Control-Home-Assistant
     image: matthewbaggett/full-control-home-assistant:latest
@@ -7,9 +18,17 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./home-assistant:/config
       - ./config:/fullcontrol
+    depends_on: [ postgres ]
 
   fullcontrol:
     <<: *homeassistant
     depends_on: [ homeassistant ]
-    command: [ "fullcontrol", "-c", "/fullcontrol/MattsHouse.php" ]
-
+    command: [ "fullcontrol", "-w", "/fullcontrol", "-c", "MattsHouse.php", "--dry" ]
+    environment:
+      FULLCONTROL_READONLY: false
+      DATABASE_TYPE: postgresql
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_DATABASE: *postgres_db
+      DATABASE_USERNAME: *postgres_username
+      DATABASE_PASSWORD: *postgres_password
