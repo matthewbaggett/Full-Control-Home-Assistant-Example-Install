@@ -9,12 +9,17 @@ use Monolog\Logger;
  */
 
 $logger->info("yay!");
-\Kint::dump(get_class($fc));
 
 $matt = new Entities\Person();
 
 $ha = new Entities\HomeAssistant(
-    name: "Matt's House"
+    name: "Matt's House",
+    latitude: 52.39985453619066,
+    longitude: 5.219327542468169,
+    timezone: 'Europe/Amsterdam',
+    currency: 'EUR', // @todo turn these into consts somewhere
+    country: 'NL',
+    language: 'en'
 );
 
 

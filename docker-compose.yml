@@ -35,6 +35,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./ha-config:/config:rw
       - ./config:/fullcontrol:ro
+      - ../Full-Control-Home-Assistant:/usr/src/fullcontrol
     environment:
       FULLCONTROL_READONLY: false
       DATABASE_TYPE: postgresql
