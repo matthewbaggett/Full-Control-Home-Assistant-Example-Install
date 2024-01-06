@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  homeassistant: &homeassistant
+    #build: ../Full-Control-Home-Assistant
+    image: matthewbaggett/full-control-home-assistant:latest
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./home-assistant:/config
+      - ./config:/fullcontrol
+
+  fullcontrol:
+    <<: *homeassistant
+    depends_on: [ homeassistant ]
+    command: [ "fullcontrol", "-c", "/fullcontrol/MattsHouse.php" ]
+
