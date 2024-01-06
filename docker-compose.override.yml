@@ -2,8 +2,7 @@ version: "3.7"
 services:
   homeassistant:
     image: ghcr.io/matthewbaggett/full-control-home-assistant:test
-    ports:
-      - "8123:8123"
+
   fullcontrol:
     image: ghcr.io/matthewbaggett/full-control-home-assistant:test
     volumes:
