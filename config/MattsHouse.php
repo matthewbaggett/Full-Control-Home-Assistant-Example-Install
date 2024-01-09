@@ -23,4 +23,3 @@ $ha = new Entities\HomeAssistant(
 );
 
 
-

@@ -1,3 +1,4 @@
 .idea
 ha-config/*
 logs/*
+/config/build/

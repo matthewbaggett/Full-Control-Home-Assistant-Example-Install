@@ -4,19 +4,13 @@ homeassistant:
 	docker compose up -d homeassistant
 fullcontrol:
 	docker compose up fullcontrol
+clean:
+	docker compose down -v
 
-.PHONY: test build up purge generate test
-.SILENT: test build up purge generate test
-
+.PHONY: test build generate copy logs
+.SILENT: test build generate copy logs
 build:
 	$(MAKE) -C ../Full-Control-Home-Assistant all
-up:
-	docker compose up homeassistant postgres
-
-purge:
-	docker compose down -v --remove-orphans
-	#sudo rm -Rf home-assistant
-
 generate:
 	$(MAKE) -C ../Full-Control-Home-Assistant fix
 	docker compose \
@@ -28,6 +22,16 @@ generate:
 				fullcontrol \
 					-w /fullcontrol
 
-test: purge
-	docker compose run fullcontrol
+copy:
+	docker compose \
+		run \
+			--no-deps \
+			--rm \
+			--user $(shell id -u) \
+			fullcontrol \
+				cp -av /fullcontrol/build/. /config
+
+logs:
 	docker compose logs -f homeassistant
+
+test: clean generate copy homeassistant logs
