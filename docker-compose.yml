@@ -16,8 +16,7 @@ services:
       - "127.0.0.33:5432:5432"
 
   homeassistant:
-    #build: ../Full-Control-Home-Assistant
-    image: matthewbaggett/full-control-home-assistant:latest
+    build: ../Full-Control-Home-Assistant
     depends_on: [ postgres ]
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -26,9 +25,18 @@ services:
     ports:
       - "127.0.0.33:8123:8123"
 
+  homeassistant-default:
+    build: ../Full-Control-Home-Assistant
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./ha-config-default:/config:rw
+      - ./logs2:/var/logs
+    ports:
+      - "127.0.0.34:8123:8123"
+
   fullcontrol:
-    #build: ../Full-Control-Home-Assistant
-    image: matthewbaggett/full-control-home-assistant:latest
+    build: ../Full-Control-Home-Assistant
+    image: ghcr.io/matthewbaggett/full-control-home-assistant:latest
     depends_on: [ homeassistant ]
     command: [ "fullcontrol", "-w", "/fullcontrol"]
     volumes:

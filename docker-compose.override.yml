@@ -3,6 +3,9 @@ services:
   homeassistant:
     image: ghcr.io/matthewbaggett/full-control-home-assistant:test
 
+  homeassistant-default:
+    image: ghcr.io/matthewbaggett/full-control-home-assistant:test
+
   fullcontrol:
     image: ghcr.io/matthewbaggett/full-control-home-assistant:test
     volumes:
